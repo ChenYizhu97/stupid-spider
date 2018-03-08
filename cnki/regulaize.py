@@ -28,14 +28,20 @@ def regular(infilename,outfilenam,pattern='w'):
                 r.write(',')
             r.write('\n')
 def getRegularData(filename):
-    with open(filename,'r') as r:
-        teacherlist = [teacher.strip('\n').split(',') for teacher in r.readlines()]
-
-        for teacher in teacherlist:
-            teacher = [item.split('#slash#') for item in teacher]
-            for item in teacher:
-                item.remove(item[-1])
-            print(teacher)
+    r = open(filename,'r')
+    teacherlist = [teacher.strip('\n').split(',') for teacher in r.readlines()]
+    resultlist = []
+    for teacher in teacherlist:
+        result_teacher = []
+        teacher = [item.split('#slash#') for item in teacher]
+        for item in teacher:
+            item.remove(item[-1])
+            result_teacher.append(item)
+        resultlist.append(result_teacher)
+    r.close()
+    return resultlist
 if __name__ == '__main__':
     regular('results.txt','allresults.txt')
     regular('results-fromend.txt','allresults.txt','a')
+    for teacher in getRegularData('allresults.txt'):
+        print(teacher)
